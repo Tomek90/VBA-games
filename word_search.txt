@@ -1,0 +1,111 @@
+# code for word search, better to download xlsm file to test
+
+Sub WordSearch()
+
+Dim index As Integer
+Dim country(10) As String
+Dim x As Range
+Dim xval As String
+Dim i As Integer
+Dim l As Integer
+Dim answerArray(28) As String
+Dim Line As Variant
+
+
+'Looping the array for countries
+
+For Each x In Range("a10:a19")
+
+    i = i + 1
+    country(i) = x.Value
+
+Next x
+
+'looping columns from top to bottom
+
+For Each x In Range("a1:g1")
+    
+    xval = ""
+    Do Until index = 7
+        xval = xval & x.Offset(index, 0)
+        index = index + 1
+    Loop
+    
+    l = l + 1
+    answerArray(l) = xval
+    index = 0
+    
+Next x
+
+'looping columns from bottom to top
+
+For Each x In Range("a7:g7")
+    
+    xval = ""
+    Do Until index = 7
+        xval = xval & x.Offset(-index, 0)
+        index = index + 1
+    Loop
+    
+    l = l + 1
+    answerArray(l) = xval
+    index = 0
+    
+Next x
+
+'looping rows from left to right
+
+For Each x In Range("a1:a7")
+    
+    xval = ""
+    Do Until index = 7
+        xval = xval & x.Offset(0, index)
+        index = index + 1
+    Loop
+    
+    l = l + 1
+    answerArray(l) = xval
+    index = 0
+    
+Next x
+
+'looping rows from right to left
+
+For Each x In Range("g1:g7")
+    
+    xval = ""
+    Do Until index = 7
+        xval = xval & x.Offset(0, -index)
+        index = index + 1
+    Loop
+    
+    l = l + 1
+    answerArray(l) = xval
+    index = 0
+    
+Next x
+
+'Looping the array for getting results
+
+i = 0
+
+For Each Line In country
+
+    l = 0
+    i = i + 1
+    If i > 10 Then Exit Sub
+    Line = UCase(country(i))
+    Do While l <= 28
+        If answerArray(l) Like "*" & Line & "*" Then
+        MsgBox "Country " & Line & " was found"
+        l = l + 1
+        Else
+        l = l + 1
+        End If
+    Loop
+    
+Next Line
+
+    
+End Sub
+
