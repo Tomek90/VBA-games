@@ -1,0 +1,94 @@
+# Hangman in Excel code to be put in Developer
+
+
+Dim sh As Shape
+Dim Answer As String
+Dim r As Range
+Dim chNum As Integer
+Dim ChCount As Integer
+Dim Guess As String
+Dim ShCounter As Long
+
+Sub HangmanWord()
+
+'Clear Cells with Answer
+Range("b1", Range("b1").End(xlToRight)).ClearContents
+
+'Making shapes invisible
+
+For Each sh In Worksheets("Game").Shapes
+    
+   sh.Visible = msoFalse
+
+Next sh
+
+
+'Setting-up the word
+
+Answer = UCase(Application.InputBox("Choose the word", "Hangman Game"))
+If Answer = "" Then
+MsgBox "You did not type a word"
+Exit Sub
+Else
+
+ChCount = Len(Answer)
+chNum = 0
+
+Do Until chNum = ChCount
+    
+    For Each r In Range("b1", Cells(1, ChCount + 1))
+    
+        chNum = chNum + 1
+        r.Value = Mid(Answer, chNum, 1)
+        r.Font.Color = vbWhite
+    
+    Next r
+
+Loop
+
+End If
+
+End Sub
+
+Sub GuessingHangman()
+
+'Begin the trial
+
+Do Until UCase(Guess) = Answer
+
+Guess:
+
+Guess = UCase(Application.InputBox("Choose a word or a letter", "Hangman"))
+If Guess = "" Then
+MsgBox "You did not type a word"
+Exit Sub
+End If
+
+If Guess = Answer Then
+MsgBox "Congrats! You did it!"
+Exit Sub
+
+Else
+
+    For Each r In Range("b1", Cells(1, ChCount + 1))
+        
+        If Range("b1", Cells(1, ChCount + 1)).Find(Guess) Is Nothing Then
+        ShCounter = ShCounter + 1
+        Worksheets(1).Shapes(ShCounter).Visible = msoTrue
+        Application.Wait (Now + TimeValue("00:00:01"))
+        GoTo Guess
+        
+        ElseIf r.Value = Guess Then
+        r.Font.Color = vbBlack
+        
+        End If
+        
+    Next r
+    GoTo Guess
+
+End If
+
+Loop
+
+
+End Sub
