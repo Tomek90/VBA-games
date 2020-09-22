@@ -1,4 +1,4 @@
-# code for word search, better to download xlsm file to test
+'code for word search, better to download xlsm file to test
 
 Sub WordSearch()
 
